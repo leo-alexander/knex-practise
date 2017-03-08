@@ -8,7 +8,8 @@ module.exports = {
   get: get,
   getProfile: getProfile,
   getNewUser: getNewUser,
-  userAdded: userAdded
+  userAdded: userAdded,
+  viewBlogPost: viewBlogPost
 }
 
 function get (req, res) {
@@ -55,3 +56,20 @@ function userAdded (req, res) {
       res.render('userAdded')
     })
 }
+
+function viewBlogPost (re, res) {
+  userId = Number(req.params.id)
+   db.getUsers()
+   .join('blogs', 'users.id', 'blogs.user_id')
+   .select('users.id as userid', 'users.name as name', 'blogs.blog as blog', 'blogs.id as blogid')
+   .where('users.id', userId)
+   .then(function (user) {
+     var data = {
+       userProfile: user[0]
+     }
+     res.render('blogposts', data)
+   })
+   .catch(function (err) {
+     res.status(500).send('DATABASE ERROR: ' + err.message)
+   })
+ }
