@@ -20,4 +20,6 @@ server.use(bodyParser.urlencoded({ extended: true }))
 // Routes
 
 server.get('/', index.get)
-
+server.get('/profile/:id', index.getProfile)
+server.get('/newUser', index.getNewUser)
+server.post('/userAdded', index.userAdded)
